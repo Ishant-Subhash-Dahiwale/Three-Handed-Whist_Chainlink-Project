@@ -1,0 +1,148 @@
+@keyframes sparkle {
+    0% {
+      opacity: 0.5;
+      transform: scale(0.5);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(3);
+    }
+    100% {
+      opacity: 0.5;
+      transform: scale(0.5);
+    }
+  }
+  
+  @keyframes containerFadeIn {
+    0% {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes containerPulse {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.05);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+  
+  .mmm {
+    font-family: 'Georgia', serif;
+    background-color: #000;
+    color: #fff;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+    cursor: url('./cursor.svg'), auto; /* Set the custom cursor */
+
+  }
+  
+  .container {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #333;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    border: 2px solid #d4af37; /* Golden border */
+    position: relative;
+    z-index: 1;
+    animation: containerFadeIn 1s ease-out, containerPulse 5s infinite ease-in-out;
+  }
+  
+  h1 {
+    text-align: center;
+    color: #d4af37; /* Golden text */
+    margin-bottom: 20px;
+    text-shadow: 0 0 10px #d4af37, 0 0 20px #d4af37, 0 0 30px #d4af37;
+  }
+  
+  p {
+    font-size: 18px;
+    line-height: 1.6;
+  }
+  
+  button {
+    background-color: #d4af37; /* Golden background */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 10px;
+    box-shadow: 0 0 10px #d4af37, 0 0 20px #d4af37;
+    text-shadow: 0 0 5px #000;
+  }
+  
+  button:hover {
+    background-color: #ff9528; /* Darker golden on hover */
+    box-shadow: 0 0 20px #b89528, 0 0 30px #b89528;
+  }
+  
+  .in  {
+    width: calc(100% - 30px);
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    backgroundColor: #FFFFFF;
+    color: white;
+    box-shadow: inset 0 0 5px #000;
+  }
+  
+  input[type="number"] {
+    -moz-appearance: textfield;
+  }
+  
+  input[type="number"]::-webkit-outer-spin-button,
+  input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  
+  div {
+    margin-bottom: 20px;
+  }
+  
+  @media (max-width: 600px) {
+    .container {
+      padding: 15px;
+    }
+  
+    button {
+      width: 100%;
+      margin-bottom: 10px;
+    }
+  }
+  
+  .sparkle {
+    position: fixed;
+    width: 5px;
+    height: 5px;
+    background-color: #d4af37;
+    border-radius: 50%;
+    opacity: 0.5;
+    animation: sparkle 1s infinite ease-in-out;
+    box-shadow: 0 0 5px #d4af37, 0 0 10px #d4af37;
+  }
+  
+  @media (prefers-reduced-motion: reduce) {
+    .sparkle, .container {
+      animation: none;
+    }
+  }
+  

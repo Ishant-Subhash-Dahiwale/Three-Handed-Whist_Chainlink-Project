@@ -1,0 +1,46 @@
+:root {
+  --codepen-bg: #1d1e22;
+
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.containers {
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 10vh;
+  width: 10vw;
+  /* background-color: var(--codepen-bg); */
+}
+
+#btns {
+  zIndex:1;
+
+  height: 80px;
+  width: 240px;
+  border-radius: 16px;
+  border: solid 3px white;
+  background-color: transparent;
+  cursor: pointer;
+  outline: none;
+
+  color: white;
+  font-size: 24px;
+  font-family: Bodoni MT, Bodoni 72, Didot, Didot LT STD, Hoefler Text, Garamond,
+    Times New Roman, serif;
+}
+
+.spark {
+  position: absolute;
+  width: 30px;
+  height: 8px;
+  border-radius: 3px;
+  background-color: white;
+  transform: none;
+}

@@ -1,0 +1,244 @@
+/* Base styles for the app */
+.Ap {
+    font-family: 'Times New Roman', Times, serif;
+    text-align: center;
+    padding: 50px;
+    background-color: #121212;
+    color: #f9f9f9;
+    height: 622px;
+    border: 2px solid #d4af37;
+    border-radius: 10px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.7);
+    position: relative; /* Make sure the container can contain absolutely positioned elements */
+    overflow: hidden;
+    cursor: url('./../cursor.svg'), auto; /* Set the custom cursor */
+
+}
+
+/* Styles for the selected items area */
+.above-pane {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    padding: 20px;
+}
+
+/* Styles for each selected item */
+.selected-item {
+    background-color: #2b2b2b;
+    padding: 20px;
+    border: 2px solid #d4af37;
+    width: calc(25% - 20px);
+    text-align: center;
+    border-radius: 8px;
+    transition: transform 0.3s;
+}
+
+.selected-item:hover {
+    transform: scale(1.05);
+}
+
+/* Hiding selected items */
+.selected-item.hidden {
+    display: none;
+}
+
+/* Styles for the sliding pane container */
+.pane-container {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    transition: transform 0.3s ease-in-out;
+    transform: translateY(100%);
+    z-index: 1000;
+}
+
+/* When the pane is open */
+.pane-container.open {
+    transform: translateY(0);
+}
+
+/* Styles for the pane */
+.pane {
+    background-color: #2b2b2b;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.7);
+    padding: 20px;
+    border-top: 2px solid #d4af37;
+    max-height: 80vh; /* Adjust the height as needed */
+    overflow-y: auto; /* Enable vertical scrollbar */
+}
+
+/* Styles for the toggle button */
+.toggle-button {
+    position: absolute;
+    top: -40px;
+    left: 48%;
+    transform: translateZ(10%);
+    background-color: #d4af37;
+    color: #1e1e1e;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.toggle-button:hover {
+    background-color: #bfa335;
+    transform: scale(1.05);
+}
+
+.toggle-button:focus {
+    outline: none;
+}
+
+/* Styles for the items container */
+.items-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+/* Styles for each item */
+.item {
+    background-color: #1e1e1e;
+    padding: 10px;
+    border: 2px solid #d4af37;
+    cursor: pointer;
+    flex: 1 1 calc(25% - 20px);
+    text-align: center;
+    border-radius: 8px;
+    transition: transform 0.2s, border-color 0.2s;
+}
+
+.item:hover {
+    transform: scale(1.05);
+    border-color: #bfa335;
+}
+
+/* Styles for the check button */
+.check-button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background-color: #d4af37; /* Royal gold color */
+    color: #1e1e1e; /* Dark text color for contrast */
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 16px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.check-button:hover {
+    background-color: #bfa335; /* Slightly darker shade of gold for hover effect */
+    transform: scale(1.05); /* Slightly enlarge the button on hover */
+}
+
+.check-button:focus {
+    outline: none;
+}
+
+/* Styles for player cards */
+.player-cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px; /* Adjust the gap as needed */
+    margin: 20px 0;
+}
+
+.player-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #2b2b2b;
+    padding: 10px;
+    border: 2px solid #d4af37;
+    border-radius: 8px;
+    transition: transform 0.3s;
+}
+
+.player-card:hover {
+    transform: scale(1.05);
+}
+
+.player-card p {
+    margin: 0;
+    padding: 5px 0;
+    color: #d4af37;
+}
+
+/* Styles for the result box */
+.result-box {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #ffd700;
+    border: 2px solid #b8860b;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    font-size: 1.5em;
+    color: #4b0082;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    animation: fadeIn 1s ease-in-out;
+}
+
+.result-box p {
+    margin: 0;
+}
+
+/* Animation for fade in effect */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Animation for card appearance */
+@keyframes appear {
+    from {
+        opacity: 0;
+        transform: scale(0);
+    }
+    to {
+        opacity: 1;
+        transform: scale(0.5);
+    }
+}
+
+@keyframes disappear {
+    from {
+        opacity: 1;
+        transform: scale(0.5);
+    }
+    to {
+        opacity: 0;
+        transform: scale(0);
+    }
+}
+
+.cardm {
+    position: absolute;
+    width: 100px;
+    height: 150px;
+    background-color: #2b2b2b;
+    border: 2px solid #d4af37;
+    border-radius: 8px;
+    transition: all 0.3s ease-in-out;
+    pointer-events: none;
+    animation: appear 0.5s ease forwards;
+    opacity: 0; /* Initially hidden */
+}
