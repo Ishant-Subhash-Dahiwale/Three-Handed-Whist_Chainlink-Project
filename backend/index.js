@@ -130,8 +130,14 @@ app.get('/trump',(req,res)=>{
   console.log(trump);
   res.json({trump:req.query.random,arr:sortedArra});
 })
+let c=0;
 
+app.get('/getpid',(req,res)=>{
+  console.log(c);
 
+ res.json({'pid':c})
+ c++;
+})
 
 const genAI = new GoogleGenerativeAI('AIzaSyCkl99N0WdJMusNL_BgZHLYkIo5IC_P2qc');
 

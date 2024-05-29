@@ -134,6 +134,7 @@ const SlidingPane = ({ items, onItemClick, onTogglePane, selectedIndices }) => {
   const [account, setAccount] = useState(null);
   const [contract, setContract] = useState(null);
   const [array1, setArray1] = useState([]);
+  const [pid, setpid] = useState(0);
 
 
   const togglePane = () => {
@@ -147,11 +148,45 @@ const SlidingPane = ({ items, onItemClick, onTogglePane, selectedIndices }) => {
   const fetchArrays = async () => {
     if (contract) {
         try {
-            const array1 = await contract.methods.getArray1().call();
-            const array1Strings = array1.map(item => Number(item));
-            setArray1(array1Strings);
-            setRandomIndices(array1Strings)
-            console.log(array1Strings);
+
+          // let co=4;
+
+          // (async () => {
+          //   try {
+          //     let a = await axios.get('http://localhost:5000/getpid');
+          //     console.log(a.data.pid);
+          //     setpid(a.data.pid);
+          //   } catch (error) {
+          //     console.error('Error fetching PID:', error);
+          //   }
+          // })();
+          
+          console.log(pid);
+
+            if(pid%3===0){
+              const array1 = await contract.methods.getArray1().call();
+              const array1Strings = array1.map(item => Number(item));
+
+              setArray1(array1Strings);
+              setRandomIndices(array1Strings)
+              console.log(array1Strings);
+            }else if(pid%3===1){
+              const array2 = await contract.methods.getArray2().call();
+              const array2Strings = array2.map(item => Number(item));
+
+              setArray1(array2Strings);
+              setRandomIndices(array2Strings)
+              console.log(array2Strings);
+            }
+            else if(pid%3===2){
+              const array3 = await contract.methods.getArray3().call();
+              const array3Strings = array3.map(item => Number(item));
+
+              setArray1(array3Strings);
+              setRandomIndices(array3Strings)
+              console.log(array3Strings);
+            }
+
         } catch (error) {
             console.error("Error fetching arrays:", error);
         }
@@ -160,7 +195,15 @@ const SlidingPane = ({ items, onItemClick, onTogglePane, selectedIndices }) => {
 
   useEffect(() => {
 
-    
+    (async () => {
+      try {
+        let a = await axios.get('http://localhost:5000/getpid');
+        console.log(a.data.pid);
+        setpid(a.data.pid);
+      } catch (error) {
+        console.error('Error fetching PID:', error);
+      }
+    })();
 
       const contractAddress = '0x4A29216b73F4A3585420cFFC6623C45375Ae5346';
 
