@@ -6,6 +6,8 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const { GoogleGenerativeAI } = require('@google/generative-ai');
 
+
+
 const app = express();
 const server = http.createServer(app);
 const io = socketIo(server);
@@ -18,6 +20,7 @@ const client = require('twilio')(accountSid, authToken);
 // Middleware
 app.use(bodyParser.json());
 app.use(cors());
+
 
 // Mock card rank data
 const cardRanks = {
@@ -36,60 +39,150 @@ const cardRanks = {
   "AC": 14, "AD": 14, "AH": 14, "AS": 14
 };
 
-const cardComponents = [
-  { name: '2C', index: 0 },
-  { name: '2D', index: 1 },
-  { name: '2H', index: 2 },
-  { name: '2S', index: 3 },
-  { name: '3C', index: 4 },
-  { name: '3D', index: 5 },
-  { name: '3H', index: 6 },
-  { name: '3S', index: 7 },
-  { name: '4C', index: 8 },
-  { name: '4D', index: 9 },
-  { name: '4H', index: 10 },
-  { name: '4S', index: 11 },
-  { name: '5C', index: 12 },
-  { name: '5D', index: 13 },
-  { name: '5H', index: 14 },
-  { name: '5S', index: 15 },
-  { name: '6C', index: 16 },
-  { name: '6D', index: 17 },
-  { name: '6H', index: 18 },
-  { name: '6S', index: 19 },
-  { name: '7C', index: 20 },
-  { name: '7D', index: 21 },
-  { name: '7H', index: 22 },
-  { name: '7S', index: 23 },
-  { name: '8C', index: 24 },
-  { name: '8D', index: 25 },
-  { name: '8H', index: 26 },
-  { name: '8S', index: 27 },
-  { name: '9C', index: 28 },
-  { name: '9D', index: 29 },
-  { name: '9H', index: 30 },
-  { name: '9S', index: 31 },
-  { name: 'AC', index: 32 },
-  { name: 'AD', index: 33 },
-  { name: 'AH', index: 34 },
-  { name: 'AS', index: 35 },
-  { name: 'JC', index: 36 },
-  { name: 'JD', index: 37 },
-  { name: 'JH', index: 38 },
-  { name: 'JS', index: 39 },
-  { name: 'KC', index: 40 },
-  { name: 'KD', index: 41 },
-  { name: 'KH', index: 42 },
-  { name: 'KS', index: 43 },
-  { name: 'QC', index: 44 },
-  { name: 'QD', index: 45 },
-  { name: 'QH', index: 46 },
-  { name: 'QS', index: 47 },
-  { name: 'TC', index: 48 },
-  { name: 'TD', index: 49 },
-  { name: 'TH', index: 50 },
-  { name: 'TS', index: 51 },
+const sortedArra = [
+  { name: 'AC', index: 32, trump: 0 },
+  { name: '2C', index: 0, trump: 0 },
+  { name: '3C', index: 4, trump: 0 },
+  { name: '4C', index: 8, trump: 0 },
+  { name: '5C', index: 12, trump: 0 },
+  { name: '6C', index: 16, trump: 0 },
+  { name: '7C', index: 20, trump: 0 },
+  { name: '8C', index: 24, trump: 0 },
+  { name: '9C', index: 28, trump: 0 },
+  { name: 'TC', index: 48, trump: 0 },
+  { name: 'JC', index: 36, trump: 0 },
+  { name: 'QC', index: 44, trump: 0 },
+  { name: 'KC', index: 40, trump: 0 },
+  { name: 'AD', index: 33, trump: 0 },
+  { name: '2D', index: 1, trump: 0 },
+  { name: '3D', index: 5, trump: 0 },
+  { name: '4D', index: 9, trump: 0 },
+  { name: '5D', index: 13, trump: 0 },
+  { name: '6D', index: 17, trump: 0 },
+  { name: '7D', index: 21, trump: 0 },
+  { name: '8D', index: 25, trump: 0 },
+  { name: '9D', index: 29, trump: 0 },
+  { name: 'TD', index: 49, trump: 0 },
+  { name: 'JD', index: 37, trump: 0 },
+  { name: 'QD', index: 45, trump: 0 },
+  { name: 'KD', index: 41, trump: 0 },
+  { name: 'AH', index: 34, trump: 0 },
+  { name: '2H', index: 2, trump: 0 },
+  { name: '3H', index: 6, trump: 0 },
+  { name: '4H', index: 10, trump: 0 },
+  { name: '5H', index: 14, trump: 0 },
+  { name: '6H', index: 18, trump: 0 },
+  { name: '7H', index: 22, trump: 0 },
+  { name: '8H', index: 26, trump: 0 },
+  { name: '9H', index: 30, trump: 0 },
+  { name: 'TH', index: 50, trump: 0 },
+  { name: 'JH', index: 38, trump: 0 },
+  { name: 'QH', index: 46, trump: 0 },
+  { name: 'KH', index: 42, trump: 0 },
+  { name: 'AS', index: 35, trump: 0 },
+  { name: '2S', index: 3, trump: 0 },
+  { name: '3S', index: 7, trump: 0 },
+  { name: '4S', index: 11, trump: 0 },
+  { name: '5S', index: 15, trump: 0 },
+  { name: '6S', index: 19, trump: 0 },
+  { name: '7S', index: 23, trump: 0 },
+  { name: '8S', index: 27, trump: 0 },
+  { name: '9S', index: 31, trump: 0 },
+  { name: 'TS', index: 51, trump: 0 },
+  { name: 'JS', index: 39, trump: 0 },
+  { name: 'QS', index: 47, trump: 0 },
+  { name: 'KS', index: 43, trump: 0 }
 ];
+
+// console.log(sortedArray);
+
+
+function updateTrump(sortedArray, num) {
+  num=num%3;
+  if (num < 0 || num > 3) {
+    console.error("Input must be a number between 0 and 3 inclusive.");
+    return;
+  }
+  for (let i = 0; i < sortedArray.length; i++) {
+    sortedArray[i].trump = 0;
+  }
+  
+  // Calculate the start and end indices
+  const startIndex = num * 13;
+  const endIndex = startIndex + 13;
+  
+  // Update the trump value for the specified range
+  for (let i = startIndex; i < endIndex; i++) {
+    sortedArray[i].trump = 1;
+  }
+}
+
+
+let trump = 0;
+
+app.get('/trump',(req,res)=>{
+    let trumpArray = sortedArra;
+  updateTrump(trumpArray,req.query.random);
+  trump = req.query.random;
+  console.log(trump);
+  res.json({trump:req.query.random,arr:trumpArray});
+})
+
+const cardComponents = [
+  { name: '2C', index: 0, trump: 0 },
+  { name: '2D', index: 1, trump: 0 },
+  { name: '2H', index: 2, trump: 0 },
+  { name: '2S', index: 3, trump: 0 },
+  { name: '3C', index: 4, trump: 0 },
+  { name: '3D', index: 5, trump: 0 },
+  { name: '3H', index: 6, trump: 0 },
+  { name: '3S', index: 7, trump: 0 },
+  { name: '4C', index: 8, trump: 0 },
+  { name: '4D', index: 9, trump: 0 },
+  { name: '4H', index: 10, trump: 0 },
+  { name: '4S', index: 11, trump: 0 },
+  { name: '5C', index: 12, trump: 0 },
+  { name: '5D', index: 13, trump: 0 },
+  { name: '5H', index: 14, trump: 0 },
+  { name: '5S', index: 15, trump: 0 },
+  { name: '6C', index: 16, trump: 0 },
+  { name: '6D', index: 17, trump: 0 },
+  { name: '6H', index: 18, trump: 0 },
+  { name: '6S', index: 19, trump: 0 },
+  { name: '7C', index: 20, trump: 0 },
+  { name: '7D', index: 21, trump: 0 },
+  { name: '7H', index: 22, trump: 0 },
+  { name: '7S', index: 23, trump: 0 },
+  { name: '8C', index: 24, trump: 0 },
+  { name: '8D', index: 25, trump: 0 },
+  { name: '8H', index: 26, trump: 0 },
+  { name: '8S', index: 27, trump: 0 },
+  { name: '9C', index: 28, trump: 0 },
+  { name: '9D', index: 29, trump: 0 },
+  { name: '9H', index: 30, trump: 0 },
+  { name: '9S', index: 31, trump: 0 },
+  { name: 'AC', index: 32, trump: 0 },
+  { name: 'AD', index: 33, trump: 0 },
+  { name: 'AH', index: 34, trump: 0 },
+  { name: 'AS', index: 35, trump: 0 },
+  { name: 'JC', index: 36, trump: 0 },
+  { name: 'JD', index: 37, trump: 0 },
+  { name: 'JH', index: 38, trump: 0 },
+  { name: 'JS', index: 39, trump: 0 },
+  { name: 'KC', index: 40, trump: 0 },
+  { name: 'KD', index: 41, trump: 0 },
+  { name: 'KH', index: 42, trump: 0 },
+  { name: 'KS', index: 43, trump: 0 },
+  { name: 'QC', index: 44, trump: 0 },
+  { name: 'QD', index: 45, trump: 0 },
+  { name: 'QH', index: 46, trump: 0 },
+  { name: 'QS', index: 47, trump: 0 },
+  { name: 'TC', index: 48, trump: 0 },
+  { name: 'TD', index: 49, trump: 0 },
+  { name: 'TH', index: 50, trump: 0 },
+  { name: 'TS', index: 51, trump: 0 }
+]
+
 
 
 const genAI = new GoogleGenerativeAI('AIzaSyCkl99N0WdJMusNL_BgZHLYkIo5IC_P2qc');
@@ -197,6 +290,28 @@ app.get('/api/send-sms', (req, res) => {
 });
 
 
+// // Route to handle card comparison for three players
+// app.post('/compare-cards', (req, res) => {
+//   const { player1Card, player2Card, player3Card, player1Id, player2Id, player3Id } = req.body;
+
+//   const rank1 = cardRanks[player1Card];
+//   const rank2 = cardRanks[player2Card];
+//   const rank3 = cardRanks[player3Card];
+
+//   let winnerId;
+//   if (rank1 > rank2 && rank1 > rank3) {
+//     winnerId = player1Id;
+//   } else if (rank2 > rank1 && rank2 > rank3) {
+//     winnerId = player2Id;
+//   } else if (rank3 > rank1 && rank3 > rank2) {
+//     winnerId = player3Id;
+//   } else {
+//     winnerId = 'draw';
+//   }
+
+//   res.json({ winnerId });
+// });
+
 // Route to handle card comparison for three players
 app.post('/compare-cards', (req, res) => {
   const { player1Card, player2Card, player3Card, player1Id, player2Id, player3Id } = req.body;
@@ -205,19 +320,41 @@ app.post('/compare-cards', (req, res) => {
   const rank2 = cardRanks[player2Card];
   const rank3 = cardRanks[player3Card];
 
+  const trump1 = sortedArra.find(card => card.name === player1Card).trump;
+  const trump2 = sortedArra.find(card => card.name === player2Card).trump;
+  const trump3 = sortedArra.find(card => card.name === player3Card).trump;
+
   let winnerId;
-  if (rank1 > rank2 && rank1 > rank3) {
-    winnerId = player1Id;
-  } else if (rank2 > rank1 && rank2 > rank3) {
-    winnerId = player2Id;
-  } else if (rank3 > rank1 && rank3 > rank2) {
-    winnerId = player3Id;
-  } else {
+
+  // Check for trump cards
+  const trumpCards = [
+    { playerId: player1Id, trump: trump1 },
+    { playerId: player2Id, trump: trump2 },
+    { playerId: player3Id, trump: trump3 }
+  ];
+
+  const trumpCount = trumpCards.filter(card => card.trump === 1).length;
+
+  if (trumpCount === 1) {
+    winnerId = trumpCards.find(card => card.trump === 1).playerId;
+  } else if (trumpCount > 1) {
     winnerId = 'draw';
+  } else {
+    // No trump cards, compare ranks
+    if (rank1 > rank2 && rank1 > rank3) {
+      winnerId = player1Id;
+    } else if (rank2 > rank1 && rank2 > rank3) {
+      winnerId = player2Id;
+    } else if (rank3 > rank1 && rank3 > rank2) {
+      winnerId = player3Id;
+    } else {
+      winnerId = 'draw';
+    }
   }
 
   res.json({ winnerId });
 });
+
 
 server.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);

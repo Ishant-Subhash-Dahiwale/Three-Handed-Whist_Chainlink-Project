@@ -6,6 +6,11 @@ import contractJson from './afunc.json';
 import Switch from '@mui/material/Switch';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import axios from 'axios';
+import contractABI from './acardget.json';
+import contractABIw from './thw.json';
+import Gback from './gback/gback';
+
+
 
 import { ReactComponent as Card2C } from './../cardsvg/2C.svg';
 import { ReactComponent as Card2D } from './../cardsvg/2D.svg';
@@ -125,6 +130,10 @@ const socket = io('http://localhost:5000');
 const SlidingPane = ({ items, onItemClick, onTogglePane, selectedIndices }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [randomIndices, setRandomIndices] = useState([]);
+  const [account, setAccount] = useState(null);
+  const [contract, setContract] = useState(null);
+  const [array1, setArray1] = useState([]);
+
 
   const togglePane = () => {
     setIsOpen(!isOpen);
@@ -132,25 +141,78 @@ const SlidingPane = ({ items, onItemClick, onTogglePane, selectedIndices }) => {
       onTogglePane(!isOpen);
     }
   };
+  // const bigIntToStringArray = (array) => array.map(item => item.toString());
+
+  const fetchArrays = async () => {
+    if (contract) {
+        try {
+            const array1 = await contract.methods.getArray1().call();
+            const array1Strings = array1.map(item => Number(item));
+            setArray1(array1Strings);
+            setRandomIndices(array1Strings)
+            console.log(array1Strings);
+        } catch (error) {
+            console.error("Error fetching arrays:", error);
+        }
+    }
+};
 
   useEffect(() => {
-    const generateRandomIndices = (totalItems, count) => {
-      const indices = [];
-      while (indices.length < count) {
-        const randomIndex = Math.floor(Math.random() * totalItems);
-        if (!indices.includes(randomIndex)) {
-          indices.push(randomIndex);
-        }
-      }
-      return indices;
-    };
 
-    setRandomIndices(generateRandomIndices(items.length, 17));
-  }, [items.length]);
+    
+
+      const contractAddress = '0x4A29216b73F4A3585420cFFC6623C45375Ae5346';
+
+      const loadWeb3 =  () => {
+        if (window.ethereum) {
+            window.web3 = new Web3(window.ethereum);
+            try {
+              console.log(contract);
+
+                 window.ethereum.request({ method: 'eth_requestAccounts' });
+            } catch (error) {
+                console.error("User denied account access", error);
+            }
+        } else if (window.web3) {
+            window.web3 = new Web3(window.web3.currentProvider);
+        } else {
+            window.alert('Non-Ethereum browser detected. You should consider trying MetaMask!');
+        }
+    };
+    
+    const loadBlockchainData =  () => {
+        const web3 = window.web3;
+        const accounts =  web3.eth.getAccounts();
+        setAccount(accounts[0]);
+        console.log("User denied account 2access");
+
+        const contract = new web3.eth.Contract(contractABI.abi, contractAddress);
+        setContract(contract);
+    };
+    
+
+      loadWeb3();
+      loadBlockchainData();
+
+    
+
+    // const generateRandomIndices = (totalItems, count) => {
+    //   const indices = [];
+    //   while (indices.length < count) {
+    //     const randomIndex = Math.floor(Math.random() * totalItems);
+    //     if (!indices.includes(randomIndex)) {
+    //       indices.push(randomIndex);
+    //     }
+    //   }
+    //   return indices;
+    // };
+
+    // setRandomIndices([1,2,3]);
+  }, []);
 
   return (
     <div className={`pane-container ${isOpen ? 'open' : ''}`}>
-      <button className="toggle-button" onClick={togglePane}>
+      <button className="toggle-button" onClick={()=>{togglePane();fetchArrays();}}>
         {isOpen ? 'Close Pane' : 'Open Pane'}
       </button>
       <div className="pane">
@@ -165,8 +227,8 @@ const SlidingPane = ({ items, onItemClick, onTogglePane, selectedIndices }) => {
                   onItemClick(index);
                   togglePane();
                 }}
-              >
-                <item.component />
+              > 
+               <item.component />
               </div>
             )
           ))}
@@ -175,13 +237,42 @@ const SlidingPane = ({ items, onItemClick, onTogglePane, selectedIndices }) => {
     </div>
   );
 };
+let idd='';
 
 const Game = () => {
+  const [web3w, setWeb3w] = useState(null);
+  const [contractw, setContractw] = useState(null);
+  const [accountw, setAccountw] = useState([]);
+
+
+  const [winnerAddress, setWinnerAddress] = useState('');
+
   const [players, setPlayers] = useState([]);
   const [selectedIndices, setSelectedIndices] = useState([]);
   const [playerName, setPlayerName] = useState('');
   const [isGameFull, setIsGameFull] = useState(false);
   const [result, setResult] = useState(null);
+
+
+  useEffect(() => {
+    if (window.ethereum) {
+      const web3Instance = new Web3(window.ethereum);
+      setWeb3w(web3Instance);
+
+      window.ethereum.request({ method: 'eth_requestAccounts' })
+        .then(accounts => {
+          setAccountw(accounts);
+          const contractAddressw = '0x5017cf71dA8E90DDEC3266224Ef762E3b14023d5'
+          const instance = new web3Instance.eth.Contract(contractABIw, contractAddressw);
+          setContractw(instance);
+        });
+    } else {
+      console.log('Please install MetaMask!');
+    }
+  }, []);
+
+
+
 // JavaScript to handle mouse movement and card animation
 document.addEventListener('mousemove', (event) => {
   const card = document.createElement('div');
@@ -206,6 +297,7 @@ document.addEventListener('mousemove', (event) => {
     connectWallet();
 
     socket.on('update-players', (players) => {
+      console.log(players)
       setPlayers(players);
     });
 
@@ -216,12 +308,9 @@ document.addEventListener('mousemove', (event) => {
     socket.on('game-full', () => {
       setIsGameFull(true);
     });
-
     socket.on('game-result', ({ winnerId }) => {
+      idd=winnerId;
       setResult(winnerId === 'draw' ? 'It\'s a draw!' : `The winner is ${winnerId}`);
-      setTimeout(() => {
-        window.location.reload();
-      }, 5000);
     });
 
     return () => {
@@ -283,7 +372,7 @@ const interval = setInterval(() => {
     if (count === 5) {
         clearInterval(interval);
     }
-}, 10000); 
+}, 20000); 
   };
 
 
@@ -345,12 +434,14 @@ const interval = setInterval(() => {
   };
   const handleToggle = (event) => {
     setIsOn(event.target.checked);
-    console.log(`' The switch is ${isOn ? "ON" : "OFF"}'`)
-    if(isOn){
-
-    }
+if(isOn){
+  alert(`'Makes ai call through Chainlink Functions'`)
+  return ;
+}
+alert(`' Direct Call to AI'`)
 
   };
+
 
 
   // const handleToggle = () => {
@@ -359,10 +450,22 @@ const interval = setInterval(() => {
 
   // };
 
+  const giveWinner = async (winnerAddress) => {
+    try {
+      await contractw.methods.giveWinner(winnerAddress).send({ from: accountw[0] });
+      // await updateGameState();
+    } catch (error) {
+      console.error('Error giving winner:', error);
+    }
+  };
+
 
 
   return (
+<div style={{ position: 'relative' }}>
+      <Gback/>
     <div className="Ap">
+      <div style={{zIndex:15}} >
       <h1>Three-Handed Whist Game</h1>
       <input
         type="text"
@@ -372,7 +475,9 @@ const interval = setInterval(() => {
         disabled={isGameFull}
       />
       <button onClick={handleJoinGame} disabled={isGameFull}>Join Game</button>
+
       {isGameFull && <p>The game is full. Please wait for the next game.</p>}
+
       <div className="player-cards">
         {players.map((player, idx) => (
           <div key={player.id} className="player-card">
@@ -381,6 +486,8 @@ const interval = setInterval(() => {
           </div>
         ))}
       </div>
+      </div>
+
       <SlidingPane
         items={cardComponents}
         onItemClick={handleItemClick}
@@ -390,9 +497,19 @@ const interval = setInterval(() => {
       {result && (
         <div className="result-box">
           <p>{result}</p>
-        </div>
+          <br></br>
+{idd===playerName && (<div>
+  <input
+            type="text"
+            placeholder="Winner Address"
+            value={winnerAddress}
+            onChange={(e) => setWinnerAddress(e.target.value)}
+          />
+          <button onClick={() => giveWinner(winnerAddress)}>Give Winnings</button> 
+          </div>)
+        }</div>
       )}
-        <button onClick={togglePane} style={{ position: 'fixed', top: '0px', left: '0px', zIndex: 10 }}>
+        <button onClick={togglePane} style={{ position: 'fixed', top: '0px', left: '0px', zIndex: 3 }}>
         {isPaneOpen ? '<' : 'AI HELPER'}
       </button>
       {isPaneOpen && (
@@ -401,21 +518,24 @@ const interval = setInterval(() => {
           top: 0,
           left: 0,
           height: '90%',
-          width: '450px',
+          width: '550px',
           backgroundColor: '#f0f0f0',
           boxShadow: '2px 0px 5px rgba(0,0,0,0.5)',
-          zIndex: 9,
+          zIndex: 2,
           padding: '20px',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'flex-end'
         }}>
 
-          <div style={{marginLeft:'50px'}}>
+          <div style={{marginLeft:'50px'}}
+          >
             <FormControlLabel
                 control={<Switch checked={isOn} onChange={handleToggle} />}
-                label="Toggle Switch"
-            />
+                label="Toggle to switch between modes"
+                sx={{ color: 'black' }}  // Set font color to black
+                />
+
             </div>
           <div style={{ flex: 1, overflowY: 'auto', backgroundColor: '#333', padding: '10px', borderRadius: '5px' }}>
   {submittedTexts.map((text, index) => (
@@ -442,6 +562,7 @@ const interval = setInterval(() => {
  
         </div>
       )}
+    </div>
     </div>
   );
 };

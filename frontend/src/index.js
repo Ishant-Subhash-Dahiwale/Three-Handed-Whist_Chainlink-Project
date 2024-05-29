@@ -8,6 +8,8 @@ import HorizontalNonLinearStepper from './components/stepper'
 import LoginForm from './login/login'
 import Game from './gamepage/game';
 import Bet from './bettingpage/bet';
+import Trump from './trump/trump';
+
 
 export default function app() {
 
@@ -19,6 +21,7 @@ export default function app() {
       <Route  path="login"  element={<LoginForm></LoginForm>} />
       <Route  path="game"  element={<Game></Game>} />
       <Route  path="bet"  element={<Bet></Bet>} />
+      <Route  path="trump"  element={<Trump></Trump>} />
 
 
       </Routes>

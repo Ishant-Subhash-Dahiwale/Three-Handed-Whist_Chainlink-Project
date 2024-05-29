@@ -113,7 +113,6 @@ const ThreeHandedWhist = () => {
         <button onClick={addPlayer}>Add Player</button>
         
       </div>
-      {showStakeSection && (
         <div>
           <input className='in'
             type="number"
@@ -123,8 +122,6 @@ const ThreeHandedWhist = () => {
           />
           <button onClick={() => stake(stakeAmount)}>Stake</button>
         </div>
-      )}
-      {showWinnerSection && (
         <div>
           {/* <input
             type="text"
@@ -134,10 +131,9 @@ const ThreeHandedWhist = () => {
           />
           <button onClick={() => giveWinner(winnerAddress)}>Give Winnings</button> */}
           <br></br>
-<Button variant="contained" color="success" style={{marginTop:'20px'}} href='/game'>
-Go 
+<Button variant="contained" color="success" style={{marginTop:'20px'}} href='/trump'>
+Get Trump Card
       </Button>         </div>
-      )}
     </div>
     </div>
   );

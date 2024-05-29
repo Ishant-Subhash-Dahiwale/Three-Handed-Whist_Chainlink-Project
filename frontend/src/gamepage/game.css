@@ -3,7 +3,7 @@
     font-family: 'Times New Roman', Times, serif;
     text-align: center;
     padding: 50px;
-    background-color: #121212;
+    background-color: rgba(18, 18, 18, 0.1); /* Set to semi-transparent */
     color: #f9f9f9;
     height: 622px;
     border: 2px solid #d4af37;
@@ -12,7 +12,6 @@
     position: relative; /* Make sure the container can contain absolutely positioned elements */
     overflow: hidden;
     cursor: url('./../cursor.svg'), auto; /* Set the custom cursor */
-
 }
 
 /* Styles for the selected items area */
@@ -20,6 +19,8 @@
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
+    overflow: hidden;
+
     justify-content: center;
     padding: 20px;
 }
