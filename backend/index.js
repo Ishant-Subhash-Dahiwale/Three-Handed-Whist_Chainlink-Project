@@ -23,76 +23,78 @@ app.use(cors());
 
 
 // Mock card rank data
-const cardRanks = {
-  "2C": 2, "2D": 2, "2H": 2, "2S": 2,
-  "3C": 3, "3D": 3, "3H": 3, "3S": 3,
-  "4C": 4, "4D": 4, "4H": 4, "4S": 4,
-  "5C": 5, "5D": 5, "5H": 5, "5S": 5,
-  "6C": 6, "6D": 6, "6H": 6, "6S": 6,
-  "7C": 7, "7D": 7, "7H": 7, "7S": 7,
-  "8C": 8, "8D": 8, "8H": 8, "8S": 8,
-  "9C": 9, "9D": 9, "9H": 9, "9S": 9,
-  "TC": 10, "TD": 10, "TH": 10, "TS": 10,
-  "JC": 11, "JD": 11, "JH": 11, "JS": 11,
-  "QC": 12, "QD": 12, "QH": 12, "QS": 12,
-  "KC": 13, "KD": 13, "KH": 13, "KS": 13,
-  "AC": 14, "AD": 14, "AH": 14, "AS": 14
-};
+// const cardRanks = {
+//   "2C": 2, "2D": 2, "2H": 2, "2S": 2,
+//   "3C": 3, "3D": 3, "3H": 3, "3S": 3,
+//   "4C": 4, "4D": 4, "4H": 4, "4S": 4,
+//   "5C": 5, "5D": 5, "5H": 5, "5S": 5,
+//   "6C": 6, "6D": 6, "6H": 6, "6S": 6,
+//   "7C": 7, "7D": 7, "7H": 7, "7S": 7,
+//   "8C": 8, "8D": 8, "8H": 8, "8S": 8,
+//   "9C": 9, "9D": 9, "9H": 9, "9S": 9,
+//   "TC": 10, "TD": 10, "TH": 10, "TS": 10,
+//   "JC": 11, "JD": 11, "JH": 11, "JS": 11,
+//   "QC": 12, "QD": 12, "QH": 12, "QS": 12,
+//   "KC": 13, "KD": 13, "KH": 13, "KS": 13,
+//   "AC": 14, "AD": 14, "AH": 14, "AS": 14
+// };
 
 const sortedArra = [
-  { name: 'AC', index: 32, trump: 0 },
-  { name: '2C', index: 0, trump: 0 },
-  { name: '3C', index: 4, trump: 0 },
-  { name: '4C', index: 8, trump: 0 },
-  { name: '5C', index: 12, trump: 0 },
-  { name: '6C', index: 16, trump: 0 },
-  { name: '7C', index: 20, trump: 0 },
-  { name: '8C', index: 24, trump: 0 },
-  { name: '9C', index: 28, trump: 0 },
-  { name: 'TC', index: 48, trump: 0 },
-  { name: 'JC', index: 36, trump: 0 },
-  { name: 'QC', index: 44, trump: 0 },
-  { name: 'KC', index: 40, trump: 0 },
-  { name: 'AD', index: 33, trump: 0 },
-  { name: '2D', index: 1, trump: 0 },
-  { name: '3D', index: 5, trump: 0 },
-  { name: '4D', index: 9, trump: 0 },
-  { name: '5D', index: 13, trump: 0 },
-  { name: '6D', index: 17, trump: 0 },
-  { name: '7D', index: 21, trump: 0 },
-  { name: '8D', index: 25, trump: 0 },
-  { name: '9D', index: 29, trump: 0 },
-  { name: 'TD', index: 49, trump: 0 },
-  { name: 'JD', index: 37, trump: 0 },
-  { name: 'QD', index: 45, trump: 0 },
-  { name: 'KD', index: 41, trump: 0 },
-  { name: 'AH', index: 34, trump: 0 },
-  { name: '2H', index: 2, trump: 0 },
-  { name: '3H', index: 6, trump: 0 },
-  { name: '4H', index: 10, trump: 0 },
-  { name: '5H', index: 14, trump: 0 },
-  { name: '6H', index: 18, trump: 0 },
-  { name: '7H', index: 22, trump: 0 },
-  { name: '8H', index: 26, trump: 0 },
-  { name: '9H', index: 30, trump: 0 },
-  { name: 'TH', index: 50, trump: 0 },
-  { name: 'JH', index: 38, trump: 0 },
-  { name: 'QH', index: 46, trump: 0 },
-  { name: 'KH', index: 42, trump: 0 },
-  { name: 'AS', index: 35, trump: 0 },
-  { name: '2S', index: 3, trump: 0 },
-  { name: '3S', index: 7, trump: 0 },
-  { name: '4S', index: 11, trump: 0 },
-  { name: '5S', index: 15, trump: 0 },
-  { name: '6S', index: 19, trump: 0 },
-  { name: '7S', index: 23, trump: 0 },
-  { name: '8S', index: 27, trump: 0 },
-  { name: '9S', index: 31, trump: 0 },
-  { name: 'TS', index: 51, trump: 0 },
-  { name: 'JS', index: 39, trump: 0 },
-  { name: 'QS', index: 47, trump: 0 },
-  { name: 'KS', index: 43, trump: 0 }
+  { name: 'AC', index: 32, trump: 0, rank: 14 },
+  { name: '2C', index: 0, trump: 0, rank: 2 },
+  { name: '3C', index: 4, trump: 0, rank: 3 },
+  { name: '4C', index: 8, trump: 0, rank: 4 },
+  { name: '5C', index: 12, trump: 0, rank: 5 },
+  { name: '6C', index: 16, trump: 0, rank: 6 },
+  { name: '7C', index: 20, trump: 0, rank: 7 },
+  { name: '8C', index: 24, trump: 0, rank: 8 },
+  { name: '9C', index: 28, trump: 0, rank: 9 },
+  { name: 'TC', index: 48, trump: 0, rank: 10 },
+  { name: 'JC', index: 36, trump: 0, rank: 11 },
+  { name: 'QC', index: 44, trump: 0, rank: 12 },
+  { name: 'KC', index: 40, trump: 0, rank: 13 },
+  { name: 'AD', index: 33, trump: 0, rank: 14 },
+  { name: '2D', index: 1, trump: 0, rank: 2 },
+  { name: '3D', index: 5, trump: 0, rank: 3 },
+  { name: '4D', index: 9, trump: 0, rank: 4 },
+  { name: '5D', index: 13, trump: 0, rank: 5 },
+  { name: '6D', index: 17, trump: 0, rank: 6 },
+  { name: '7D', index: 21, trump: 0, rank: 7 },
+  { name: '8D', index: 25, trump: 0, rank: 8 },
+  { name: '9D', index: 29, trump: 0, rank: 9 },
+  { name: 'TD', index: 49, trump: 0, rank: 10 },
+  { name: 'JD', index: 37, trump: 0, rank: 11 },
+  { name: 'QD', index: 45, trump: 0, rank: 12 },
+  { name: 'KD', index: 41, trump: 0, rank: 13 },
+  { name: 'AH', index: 34, trump: 0, rank: 14 },
+  { name: '2H', index: 2, trump: 0, rank: 2 },
+  { name: '3H', index: 6, trump: 0, rank: 3 },
+  { name: '4H', index: 10, trump: 0, rank: 4 },
+  { name: '5H', index: 14, trump: 0, rank: 5 },
+  { name: '6H', index: 18, trump: 0, rank: 6 },
+  { name: '7H', index: 22, trump: 0, rank: 7 },
+  { name: '8H', index: 26, trump: 0, rank: 8 },
+  { name: '9H', index: 30, trump: 0, rank: 9 },
+  { name: 'TH', index: 50, trump: 0, rank: 10 },
+  { name: 'JH', index: 38, trump: 0, rank: 11 },
+  { name: 'QH', index: 46, trump: 0, rank: 12 },
+  { name: 'KH', index: 42, trump: 0, rank: 13 },
+  { name: 'AS', index: 35, trump: 0, rank: 14 },
+  { name: '2S', index: 3, trump: 0, rank: 2 },
+  { name: '3S', index: 7, trump: 0, rank: 3 },
+  { name: '4S', index: 11, trump: 0, rank: 4 },
+  { name: '5S', index: 15, trump: 0, rank: 5 },
+  { name: '6S', index: 19, trump: 0, rank: 6 },
+  { name: '7S', index: 23, trump: 0, rank: 7 },
+  { name: '8S', index: 27, trump: 0, rank: 8 },
+  { name: '9S', index: 31, trump: 0, rank: 9 },
+  { name: 'TS', index: 51, trump: 0, rank: 10 },
+  { name: 'JS', index: 39, trump: 0, rank: 11 },
+  { name: 'QS', index: 47, trump: 0, rank: 12 },
+  { name: 'KS', index: 43, trump: 0, rank: 13 }
 ];
+
+  
 
 // console.log(sortedArray);
 
@@ -114,6 +116,7 @@ function updateTrump(sortedArray, num) {
   // Update the trump value for the specified range
   for (let i = startIndex; i < endIndex; i++) {
     sortedArray[i].trump = 1;
+    console.log(sortedArray[i].trump,sortedArray[i].name , i)
   }
 }
 
@@ -121,67 +124,12 @@ function updateTrump(sortedArray, num) {
 let trump = 0;
 
 app.get('/trump',(req,res)=>{
-    let trumpArray = sortedArra;
-  updateTrump(trumpArray,req.query.random);
+    // let trumpArray = sortedArra;
+  updateTrump(sortedArra,req.query.random);
   trump = req.query.random;
   console.log(trump);
-  res.json({trump:req.query.random,arr:trumpArray});
+  res.json({trump:req.query.random,arr:sortedArra});
 })
-
-const cardComponents = [
-  { name: '2C', index: 0, trump: 0 },
-  { name: '2D', index: 1, trump: 0 },
-  { name: '2H', index: 2, trump: 0 },
-  { name: '2S', index: 3, trump: 0 },
-  { name: '3C', index: 4, trump: 0 },
-  { name: '3D', index: 5, trump: 0 },
-  { name: '3H', index: 6, trump: 0 },
-  { name: '3S', index: 7, trump: 0 },
-  { name: '4C', index: 8, trump: 0 },
-  { name: '4D', index: 9, trump: 0 },
-  { name: '4H', index: 10, trump: 0 },
-  { name: '4S', index: 11, trump: 0 },
-  { name: '5C', index: 12, trump: 0 },
-  { name: '5D', index: 13, trump: 0 },
-  { name: '5H', index: 14, trump: 0 },
-  { name: '5S', index: 15, trump: 0 },
-  { name: '6C', index: 16, trump: 0 },
-  { name: '6D', index: 17, trump: 0 },
-  { name: '6H', index: 18, trump: 0 },
-  { name: '6S', index: 19, trump: 0 },
-  { name: '7C', index: 20, trump: 0 },
-  { name: '7D', index: 21, trump: 0 },
-  { name: '7H', index: 22, trump: 0 },
-  { name: '7S', index: 23, trump: 0 },
-  { name: '8C', index: 24, trump: 0 },
-  { name: '8D', index: 25, trump: 0 },
-  { name: '8H', index: 26, trump: 0 },
-  { name: '8S', index: 27, trump: 0 },
-  { name: '9C', index: 28, trump: 0 },
-  { name: '9D', index: 29, trump: 0 },
-  { name: '9H', index: 30, trump: 0 },
-  { name: '9S', index: 31, trump: 0 },
-  { name: 'AC', index: 32, trump: 0 },
-  { name: 'AD', index: 33, trump: 0 },
-  { name: 'AH', index: 34, trump: 0 },
-  { name: 'AS', index: 35, trump: 0 },
-  { name: 'JC', index: 36, trump: 0 },
-  { name: 'JD', index: 37, trump: 0 },
-  { name: 'JH', index: 38, trump: 0 },
-  { name: 'JS', index: 39, trump: 0 },
-  { name: 'KC', index: 40, trump: 0 },
-  { name: 'KD', index: 41, trump: 0 },
-  { name: 'KH', index: 42, trump: 0 },
-  { name: 'KS', index: 43, trump: 0 },
-  { name: 'QC', index: 44, trump: 0 },
-  { name: 'QD', index: 45, trump: 0 },
-  { name: 'QH', index: 46, trump: 0 },
-  { name: 'QS', index: 47, trump: 0 },
-  { name: 'TC', index: 48, trump: 0 },
-  { name: 'TD', index: 49, trump: 0 },
-  { name: 'TH', index: 50, trump: 0 },
-  { name: 'TS', index: 51, trump: 0 }
-]
 
 
 
@@ -252,29 +200,115 @@ io.on('connection', (socket) => {
     console.log('A user disconnected:', socket.id);
   });
 });
+
+
+
 const determineWinner = (selectedCardIndices) => {
-  // Get the card names using the indices from cardComponents
-  const selectedCards = selectedCardIndices.map(index => cardComponents[index].name);
+  const selectedCards = [];
+  const ranks = [];
+  const trumps = [];
+  const trumpCards = [];
+  let trumpCount = 0;
+  let winnerId;
 
-  // Map the card names to their ranks
-  const ranks = selectedCards.map(card => cardRanks[card]);
-
-  // Determine the maximum rank
-  const maxRank = Math.max(...ranks);
-
-  // Find the indices of the players with the maximum rank
-  const winnerIndices = ranks.reduce((acc, rank, index) => {
-    if (rank === maxRank) acc.push(index);
-    return acc;
-  }, []);
-
-  // Determine the winner or if it's a draw
-  if (winnerIndices.length === 1) {
-    return players[winnerIndices[0]].name.toString();
-  } else {
-    return 'draw';
+  // Get the card objects using the indices from sortedArra
+  for (let i = 0; i < selectedCardIndices.length; i++) {
+    const card = sortedArra[selectedCardIndices[i]];
+    selectedCards.push(card);
+    console.log(selectedCards);
   }
+
+  // Map the card names to their ranks and determine if each card is a trump card
+  for (let i = 0; i < selectedCards.length; i++) {
+    const card = selectedCards[i];
+    ranks.push(card.rank);
+    trumps.push(card.trump);
+    console.log(ranks);
+    console.log(trumps);
+
+
+    const trumpCard = {
+      playerName: players[i].name,
+      trump: card.trump
+    };
+    trumpCards.push(trumpCard);
+    console.log(trumpCards);
+
+    if (card.trump === 1) {
+      trumpCount++;
+    }
+  }
+
+  console.log(trumpCards);
+
+  // Check for trump cards
+  if (trumpCount === 1) {
+    console.log('tc1');
+
+    for (let i = 0; i < trumpCards.length; i++) {
+      if (trumpCards[i].trump === 1) {
+        winnerId = trumpCards[i].playerName;
+        break;
+      }
+    }
+  } else if (trumpCount > 1) {
+    console.log('tc>1d');
+
+    winnerId = 'draw';
+  } else {
+    console.log('notc');
+
+    // No trump cards, compare ranks
+    let maxRank = ranks[0];
+    for (let i = 1; i < ranks.length; i++) {
+      if (ranks[i] > maxRank) {
+        maxRank = ranks[i];
+      }
+    }
+
+    const winnerIndices = [];
+    for (let i = 0; i < ranks.length; i++) {
+      if (ranks[i] === maxRank) {
+        winnerIndices.push(i);
+      }
+    }
+
+    if (winnerIndices.length === 1) {
+      winnerId = players[winnerIndices[0]].name;
+    } else {
+      winnerId = 'draw';
+    }
+  }
+
+  return winnerId;
 };
+
+
+
+
+// const determineWinner = (selectedCardIndices) => {
+//   // Get the card names using the indices from cardComponents
+//   const selectedCards = selectedCardIndices.map(index => sortedArra[index].name);
+
+//   // Map the card names to their ranks
+//   const ranks = selectedCards.map(card => cardRanks[card]);
+
+//   // Determine the maximum rank
+//   const maxRank = Math.max(...ranks);
+
+//   // Find the indices of the players with the maximum rank
+//   const winnerIndices = ranks.reduce((acc, rank, index) => {
+//     if (rank === maxRank) acc.push(index);
+//     return acc;
+//   }, []);
+
+//   // Determine the winner or if it's a draw
+//   if (winnerIndices.length === 1) {
+//     return players[winnerIndices[0]].name.toString();
+//   } else {
+//     return 'draw';
+//   }
+// };
 
 app.get('/api/send-sms', (req, res) => {
   const { body, from, to } = req.query;
@@ -313,47 +347,47 @@ app.get('/api/send-sms', (req, res) => {
 // });
 
 // Route to handle card comparison for three players
-app.post('/compare-cards', (req, res) => {
-  const { player1Card, player2Card, player3Card, player1Id, player2Id, player3Id } = req.body;
+// app.post('/compare-cards', (req, res) => {
+//   const { player1Card, player2Card, player3Card, player1Id, player2Id, player3Id } = req.body;
 
-  const rank1 = cardRanks[player1Card];
-  const rank2 = cardRanks[player2Card];
-  const rank3 = cardRanks[player3Card];
+//   const rank1 = cardRanks[player1Card];
+//   const rank2 = cardRanks[player2Card];
+//   const rank3 = cardRanks[player3Card];
 
-  const trump1 = sortedArra.find(card => card.name === player1Card).trump;
-  const trump2 = sortedArra.find(card => card.name === player2Card).trump;
-  const trump3 = sortedArra.find(card => card.name === player3Card).trump;
+//   const trump1 = sortedArra.find(card => card.name === player1Card).trump;
+//   const trump2 = sortedArra.find(card => card.name === player2Card).trump;
+//   const trump3 = sortedArra.find(card => card.name === player3Card).trump;
 
-  let winnerId;
+//   let winnerId;
 
-  // Check for trump cards
-  const trumpCards = [
-    { playerId: player1Id, trump: trump1 },
-    { playerId: player2Id, trump: trump2 },
-    { playerId: player3Id, trump: trump3 }
-  ];
+//   // Check for trump cards
+//   const trumpCards = [
+//     { playerId: player1Id, trump: trump1 },
+//     { playerId: player2Id, trump: trump2 },
+//     { playerId: player3Id, trump: trump3 }
+//   ];
 
-  const trumpCount = trumpCards.filter(card => card.trump === 1).length;
+//   const trumpCount = trumpCards.filter(card => card.trump === 1).length;
 
-  if (trumpCount === 1) {
-    winnerId = trumpCards.find(card => card.trump === 1).playerId;
-  } else if (trumpCount > 1) {
-    winnerId = 'draw';
-  } else {
-    // No trump cards, compare ranks
-    if (rank1 > rank2 && rank1 > rank3) {
-      winnerId = player1Id;
-    } else if (rank2 > rank1 && rank2 > rank3) {
-      winnerId = player2Id;
-    } else if (rank3 > rank1 && rank3 > rank2) {
-      winnerId = player3Id;
-    } else {
-      winnerId = 'draw';
-    }
-  }
+//   if (trumpCount === 1) {
+//     winnerId = trumpCards.find(card => card.trump === 1).playerId;
+//   } else if (trumpCount > 1) {
+//     winnerId = 'draw';
+//   } else {
+//     // No trump cards, compare ranks
+//     if (rank1 > rank2 && rank1 > rank3) {
+//       winnerId = player1Id;
+//     } else if (rank2 > rank1 && rank2 > rank3) {
+//       winnerId = player2Id;
+//     } else if (rank3 > rank1 && rank3 > rank2) {
+//       winnerId = player3Id;
+//     } else {
+//       winnerId = 'draw';
+//     }
+//   }
 
-  res.json({ winnerId });
-});
+//   res.json({ winnerId });
+// });
 
 
 server.listen(port, () => {
