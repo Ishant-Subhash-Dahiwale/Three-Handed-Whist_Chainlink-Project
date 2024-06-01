@@ -13,7 +13,6 @@ contract a {
     uint8[17] public array3;
 
     function swapper() public {
-        // Perform some shifting and swapping
         for (uint8 i = 0; i < 25; i++) {
             uint8 temp = numbers[i];
             numbers[i] = numbers[50 - i];
@@ -26,7 +25,6 @@ contract a {
             numbers[i + 1] = temp;
         }
 
-        // Divide the array into three separate arrays
         for (uint8 i = 0; i < 17; i++) {
             array1[i] = numbers[i];
             array2[i] = numbers[i + 17];
@@ -34,7 +32,6 @@ contract a {
         }
     }
 
-    // Helper functions to retrieve arrays for verification
     function getArray1() public view returns (uint8[17] memory) {
         return array1;
     }
