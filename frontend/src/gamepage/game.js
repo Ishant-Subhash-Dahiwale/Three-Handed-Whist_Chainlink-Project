@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import io from 'socket.io-client';
 import './game.css';
 import Web3 from 'web3';
@@ -9,6 +9,8 @@ import axios from 'axios';
 import contractABI from './acardget.json';
 import contractABIw from './thw.json';
 import Gback from './gback/gback';
+
+import backgroundMusic from './game.mp3';
 
 
 
@@ -298,6 +300,25 @@ const Game = () => {
   const [result, setResult] = useState(null);
 
 
+  const audioRef = useRef(null); // Ref for the audio element
+
+  useEffect(() => {
+    // Play background music when component mounts
+    const audio = new Audio(backgroundMusic);
+    audio.loop = true; // Loop the audio
+    audio.addEventListener('canplay', () => {
+      audio.play();
+    });
+    audioRef.current = audio; // Store audio element in ref for cleanup
+
+    // Clean up function to stop audio when component unmounts
+    return () => {
+      audio.pause();
+      audio.currentTime = 0; // Reset audio to start
+    };
+  }, []);
+
+
   useEffect(() => {
     if (window.ethereum) {
       const web3Instance = new Web3(window.ethereum);
@@ -512,13 +533,48 @@ alert(`' Direct Call to AI'`)
       <div style={{zIndex:15}} >
       <h1>Three-Handed Whist Game</h1>
       <input
-        type="text"
-        value={playerName}
-        onChange={(e) => setPlayerName(e.target.value)}
-        placeholder="Enter your name"
-        disabled={isGameFull}
-      />
-      <button onClick={handleJoinGame} disabled={isGameFull}>Join Game</button>
+  type="text"
+  value={playerName}
+  onChange={(e) => setPlayerName(e.target.value)}
+  placeholder="Enter your name"
+  disabled={isGameFull}
+  style={{
+    padding: '10px',
+    border: '2px solid #d4af37',
+    borderRadius: '4px',
+    fontFamily: 'Times New Roman, Times, serif',
+    fontSize: '16px',
+    marginBottom: '10px',
+    width: '80%',
+    boxSizing: 'border-box',
+    backgroundColor: isGameFull ? '#f0f0f0' : '#fff',
+    cursor: isGameFull ? 'not-allowed' : 'text'
+  }}
+/>
+<button
+  onClick={handleJoinGame}
+  disabled={isGameFull}
+  style={{
+    padding: '10px 20px',
+    backgroundColor: '#d4af37',
+    color: '#1e1e1e',
+    border: 'none',
+    borderRadius: '4px',
+    cursor: isGameFull ? 'not-allowed' : 'pointer',
+    fontFamily: 'Times New Roman, Times, serif',
+    fontSize: '16px',
+    transition: 'background-color 0.3s, transform 0.3s',
+    ...(isGameFull ? {} : {
+      ':hover': {
+        backgroundColor: '#bfa335',
+        transform: 'scale(1.05)'
+      }
+    })
+  }}
+>
+  Join Game
+</button>
+
 
       {isGameFull && <p>The game is full. Please wait for the next game.</p>}
 

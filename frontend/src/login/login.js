@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect,useRef } from 'react';
 import PenroseLSystemSketch from './lback';
 import { Box, Button, TextField, Typography, Container } from '@mui/material';
 import axios from 'axios';
 
+import backgroundMusic from './login.mp3';
 
 
 const LoginForm = () => {
@@ -10,6 +11,24 @@ const LoginForm = () => {
   const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState({});
+
+  const audioRef = useRef(null); // Ref for the audio element
+
+  useEffect(() => {
+    // Play background music when component mounts
+    const audio = new Audio(backgroundMusic);
+    audio.loop = true; // Loop the audio
+    audio.addEventListener('canplay', () => {
+      audio.play();
+    });
+    audioRef.current = audio; // Store audio element in ref for cleanup
+
+    // Clean up function to stop audio when component unmounts
+    return () => {
+      audio.pause();
+      audio.currentTime = 0; // Reset audio to start
+    };
+  }, []);
 
   const validateForm = () => {
     const newErrors = {};
@@ -50,14 +69,14 @@ const LoginForm = () => {
 const sendSMS = async () => {
   const body = 'Thank you for being a part of our three handed whist community ---Team THREE HANDED WHIST ';
     const from ='+13343397091';
-    const to =phone; 
+    const to ='+91'+phone.toString(); 
     if (body && from && to) {
     try {
       const response = await axios.get('http://localhost:5000/api/send-sms', {
         params: { body, from, to },
       });
       console.log('SMS sent, SID:', response.data.sid);
-      alert('INVITATION SENT');
+      alert('Message sent');
     } catch (error) {
       console.error('Error sending SMS:', error);
     }

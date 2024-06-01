@@ -139,7 +139,7 @@ app.get('/getpid',(req,res)=>{
  c++;
 })
 
-const genAI = new GoogleGenerativeAI('AIzaSyCkl99N0WdJMusNL_BgZHLYkIo5IC_P2qc');
+const genAI = new GoogleGenerativeAI('AIzaSyA7BUBfM-izqAxGF1tYcgnC2zL2SRCOtf8');
 
 // Function to call the Generative AI model
 async function getAIResponse(prompt) {

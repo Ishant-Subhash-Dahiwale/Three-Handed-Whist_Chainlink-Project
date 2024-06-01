@@ -1,8 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Web3 from 'web3';
 import contractABI from './thw.json';
 import './bet.css'; // Import the CSS file
 import { Button } from '@mui/material';
+
+import backgroundMusic from './bet.mp3';
+
 
 const ThreeHandedWhist = () => {
   const [web3, setWeb3] = useState(null);
@@ -17,6 +20,24 @@ const ThreeHandedWhist = () => {
   const [showWinnerSection, setShowWinnerSection] = useState(false);
 
   const contractAddress = "0x5017cf71dA8E90DDEC3266224Ef762E3b14023d5";
+
+  const audioRef = useRef(null); // Ref for the audio element
+
+  useEffect(() => {
+    // Play background music when component mounts
+    const audio = new Audio(backgroundMusic);
+    audio.loop = true; // Loop the audio
+    audio.addEventListener('canplay', () => {
+      audio.play();
+    });
+    audioRef.current = audio; // Store audio element in ref for cleanup
+
+    // Clean up function to stop audio when component unmounts
+    return () => {
+      audio.pause();
+      audio.currentTime = 0; // Reset audio to start
+    };
+  }, []);
 
   useEffect(() => {
     if (window.ethereum) {

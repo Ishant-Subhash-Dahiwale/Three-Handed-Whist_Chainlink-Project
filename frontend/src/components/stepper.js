@@ -130,9 +130,16 @@ Each player gets 1 point for each trick they win.
 After all 17 tricks have been played, record the scores.
 The player with the most points after a predetermined number of rounds (e.g., 5 rounds) wins the game.</Card>):
 activeStep===2?(<div>
-    <Card  style={{margin:'10px'}}>AI And Chainlink</Card>
+    <Card  style={{margin:'10px'}}>
+    <p>Chainlink Functions : we can call the ai api through chainlink functions.</p>
+    <p>Chainlink VRF : vrf is use as a trump card selector.</p>
+    <p>Chainlink Automation : Used to get the cards onthe frontend which are swapped every 4 min in the backend.</p>
+      <br></br>Chainlink offers robust solutions for smart contract automation, particularly through its Chainlink Automation, Verifiable Random Function (VRF), and Functions. Chainlink Automation, formerly known as Chainlink Keepers, ensures the timely and reliable execution of smart contracts by monitoring predefined conditions and triggering the necessary actions without manual intervention. This reduces operational overhead and increases the efficiency of decentralized applications (dApps). Chainlink VRF provides a provably fair and verifiable source of randomness crucial for applications like gaming and lotteries, enhancing their security and fairness. Lastly, Chainlink Functions allow developers to connect their smart contracts to any Web2 API, enabling seamless integration with existing systems and unlocking a multitude of new use cases. Together, these services empower developers to create more advanced, reliable, and interconnected blockchain applications.</Card>
 </div>):(<div>
-    <Card  style={{margin:'10px'}}>CLICK BELOW TO PLAY</Card>
+    <Card  style={{margin:'10px'}}>
+      <a href='/bet'> CLICK  TO PLAY
+      </a>
+      </Card>
 </div>)}
 
             <Typography sx={{ mt: 2, mb: 1, py: 1 }}>
